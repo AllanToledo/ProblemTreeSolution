@@ -4,12 +4,6 @@ import processing.event.KeyEvent;
 import java.util.*;
 
 public class Main extends PApplet {
-
-    public static List<Ponto> pontos = new ArrayList<>();
-    public static Map<Estado, Integer> estados = new HashMap<>();
-
-    public static int coeficienteProfundidade = 1;
-    public static int coeficienteHeuristica = 1;
     public Queue<Estado> proximosEstados;
     public Estado estadoRaiz;
     public boolean keepSearching = true;
@@ -31,13 +25,23 @@ public class Main extends PApplet {
         background(0);
         frameRate(60);
         strokeWeight(2);
+        textSize(3.5f);
         estadoRaiz = new Estado(
                 new Ponto(width / 2f, 100, null),
                 null,
-                new ProblemaQuebraCabeca(
-                        new Integer[][]{{7, 3, 1},
-                                        {5, 0, 6},
-                                        {8, 2, 4}}));
+                new ProblemaCuboMagico2x2(new Integer[][]{
+                        {0, 0, 1, 3, 0, 0}, //Topo
+                        {0, 0, 1, 3, 0, 0},
+                        {2, 2, 3, 5, 4, 4}, //Frente
+                        {3, 5, 4, 4, 1, 6},
+                        {0, 0, 6, 6, 0, 0}, //Baixo
+                        {0, 0, 5, 5, 0, 0},
+                        {0, 0, 2, 2, 0, 0}, //Atras
+                        {0, 0, 6, 1, 0, 0}}));
+//                new ProblemaQuebraCabeca(
+//                        new Integer[][]{{7, 3, 1},
+//                                        {5, 0, 6},
+//                                        {8, 2, 4}}));
         proximosEstados = new PriorityQueue<>();
         proximosEstados.add(estadoRaiz);
     }
@@ -51,8 +55,8 @@ public class Main extends PApplet {
             fill(0, 120, 0);
             stroke(0, 120, 0);
         } else {
-            fill(0, 0, 0, 100);
-            stroke(0, 0, 0, 100);
+            fill(0, 0, 0, 200);
+            stroke(0, 0, 0, 200);
         }
         if (estado.getEstadoPai() != null) {
             line(estado.getPosicao().getX(), estado.getPosicao().getY(),
@@ -90,7 +94,7 @@ public class Main extends PApplet {
         }
         translate(translateX, translateY); //vai deslocar a tela
         scale((float) scale); //vai setar o zoom
-        while (keepSearching && !proximosEstados.isEmpty()) {
+        if (keepSearching && iteracoes < 60 && !proximosEstados.isEmpty()) {
             Estado estado = proximosEstados.poll();
             assert estado != null;
             estadosExplorados++;
@@ -99,7 +103,7 @@ public class Main extends PApplet {
                 System.out.println("Solução encontrada!");
                 System.out.println("Número de passos para solução: " + estado.getProfudindidade());
                 System.out.println("Número de estados explorados: " + estadosExplorados);
-                System.out.println("Número de estados gerados: " + pontos.size());
+                System.out.println("Número de estados gerados: " + Ponto.pontos.size());
                 keepSearching = false;
                 estado.setCaminhoSolucao(true);
                 deletaEstado(estadoRaiz);

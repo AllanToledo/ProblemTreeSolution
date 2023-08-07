@@ -17,6 +17,7 @@ public class Ponto {
     @ToString.Exclude
     private List<Ponto> pontosFilhos;
     private float weight = 1;
+    public static List<Ponto> pontos = new ArrayList<>();
 
     public Ponto(float x, float y, Ponto pontoPai) {
         this.x = x;
@@ -27,7 +28,7 @@ public class Ponto {
             pontosFilhos.add(pontoPai);
             pontoPai.pontosFilhos.add(this);
         }
-        Main.pontos.add(this);
+        pontos.add(this);
     }
 
     public void update() {
@@ -35,7 +36,7 @@ public class Ponto {
             return;
         float forcaX = 0;
         float forcaY = 0;
-        for (Ponto other : Main.pontos) {
+        for (Ponto other : pontos) {
             float dst = dist(other) / 10;
             if (dst == 0) continue;
             if (dst < 5) dst = 5;

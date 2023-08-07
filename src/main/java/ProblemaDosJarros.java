@@ -3,9 +3,14 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ProblemaDosJarros implements Problema {
+public class ProblemaDosJarros extends Problema {
     private int jarro4l = 0;
     private int jarro3l = 0;
+
+    @Override
+    public String getPasso() {
+        return null;
+    }
 
     @Override
     public boolean isObjetivo() {

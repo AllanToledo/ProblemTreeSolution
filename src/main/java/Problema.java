@@ -1,10 +1,11 @@
 import java.util.List;
 
-public interface Problema {
+public abstract class Problema {
 
-    public boolean isObjetivo();
+    abstract public String getPasso();
+    abstract public boolean isObjetivo();
 
-    public List<Problema> gerarProblemasFilhos();
+    abstract public List<Problema> gerarProblemasFilhos();
 
-    public int getHeuristica();
+    abstract public int getHeuristica();
 }

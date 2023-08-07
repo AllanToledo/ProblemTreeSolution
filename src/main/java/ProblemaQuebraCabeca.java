@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ProblemaQuebraCabeca implements Problema {
+public class ProblemaQuebraCabeca extends Problema {
 
     public Integer[][] tabuleiro = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
     public long identidade = 0L;
@@ -10,6 +10,11 @@ public class ProblemaQuebraCabeca implements Problema {
 
     public int euristica = 0;
 
+
+    @Override
+    public String getPasso() {
+        return null;
+    }
 
     @Override
     public boolean isObjetivo() {
