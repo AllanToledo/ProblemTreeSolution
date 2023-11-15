@@ -1,6 +1,7 @@
 import lombok.Data;
 
 import java.util.List;
+import java.util.Objects;
 
 @Data
 public class ProblemaDosJarros extends Problema {
@@ -93,6 +94,11 @@ public class ProblemaDosJarros extends Problema {
     @Override
     public int getHeuristica() {
         return 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(jarro4l, jarro3l);
     }
 
     @Override

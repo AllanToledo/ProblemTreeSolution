@@ -18,6 +18,8 @@ public class Ponto {
     private List<Ponto> pontosFilhos;
     private float weight = 1;
     public static List<Ponto> pontos = new ArrayList<>();
+    static float maxRegistredVelocity = 0f;
+    private float mass = 1;
 
     public Ponto(float x, float y, Ponto pontoPai) {
         this.x = x;
@@ -35,12 +37,12 @@ public class Ponto {
         if (pontoPai == null)
             return;
         float forcaX = 0;
-        float forcaY = 0;
+        float forcaY = 2;
         for (Ponto other : pontos) {
             float dst = dist(other) / 10;
             if (dst == 0) continue;
-            if (dst < 5) dst = 5;
-            float force = (1000f / (dst * dst * dst));
+//            if (dst < 5) dst = 5;
+            float force = (10f / (dst * dst));
             float cos = (other.getX() - x) / dst;
             float sin = (other.getY() - y) / dst;
             forcaX -= force * cos;
@@ -48,7 +50,7 @@ public class Ponto {
         }
         for (Ponto other : pontosFilhos) {
             float dst = dist(other);
-            float force = (0.01f * dst * dst);
+            float force = (0.1f * dst);
             force = Math.max(1f, force);
             float cos = (other.getX() - x) / dst;
             float sin = (other.getY() - y) / dst;
@@ -56,10 +58,21 @@ public class Ponto {
             forcaY += force * sin;
         }
 
-        velX = (velX + forcaX) * 0.5f;
-        velY = (velY + forcaY) * 0.5f;
-        x += velX * 0.1f;
-        y += velY * 0.1f;
+        velX = (forcaX / mass) + velX * 0.5f;
+        velY = (forcaY / mass) + velY * 0.5f;
+        float vel = (float) Math.sqrt(velX * velX + velY * velY);
+        float limitSped = 10;
+        if(vel > limitSped){
+            velX = (velX / vel) * limitSped;
+            velY = (velY / vel) * limitSped;
+        }
+
+        if(Float.isNaN(velX) || Float.isNaN(velY)){
+            velX = 0;
+            velY = 0;
+        }
+        x += velX;
+        y += velY;
     }
 
     public float dist(Ponto ponto) {

@@ -15,8 +15,8 @@ public class Estado implements Comparable<Estado> {
     private int profudindidade = 0;
     private int euristicaEProfunidade;
     public static Map<Estado, Integer> estados = new HashMap<>();
-    public static int coeficienteProfundidade = 1;
-    public static int coeficienteHeuristica = 1;
+    public static int coeficienteProfundidade = 7 * 2;
+    public static int coeficienteHeuristica = 3;
 
     public Estado(Ponto posicao, Estado estadoPai, Problema problema) {
         this.posicao = posicao;
@@ -30,13 +30,13 @@ public class Estado implements Comparable<Estado> {
     }
 
     public void gerarEstadosFilhos() {
-        if (!estadosFilhos.isEmpty()) return;
+        if(profudindidade >= 14) return;
         for (Problema problemaFilho : problema.gerarProblemasFilhos()) {
             Ponto posicaoFilho = null;
             if (posicao != null) {
                 float x = posicao.getX();
                 float y = posicao.getY();
-                posicaoFilho = new Ponto(x + ((float) Math.random() * 20f - 10), y + ((float) Math.random() * 20f - 10), posicao);
+                posicaoFilho = new Ponto(x + 10, y + 10, posicao);
             }
             Estado novo = new Estado(posicaoFilho, this, problemaFilho);
             Integer nivelRegistrado = estados.get(novo);
